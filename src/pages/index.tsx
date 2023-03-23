@@ -5,9 +5,8 @@ import Link from "next/link";
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
-  const hello = api.createTokenRequest.create
+  const hello = api.example.hello.useQuery({ text: "wxffle" })
   console.log(hello)
-
   return (
     <>
       <Head>
