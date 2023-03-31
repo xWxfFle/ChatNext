@@ -1,30 +1,20 @@
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { pusherServer } from "~/utils/pusherApi";
 
-export const exampleRouter = createTRPCRouter({
-  hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
-      return {
-        greeting: `Hello ${input.text}`,
-      };
+export const messageRouter = createTRPCRouter({
+  create: publicProcedure
+    .input(z.object({ roomId: z.string(), text: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      await pusherServer.trigger(input.roomId, "incoming-message", input.text);
+      const message = await ctx.prisma.message.create({
+        data: {
+          text: input.text,
+          chatRoomId: input.roomId,
+        },
+      });
+
+      return message;
     }),
 });
-
-
-import { pusherServer } from '@/lib/pusher'
-
-export async function POST(req: Request) {
-  const { text, roomId } = await req.json()
-
-  pusherServer.trigger(roomId, 'incoming-message', text)
-
-  await ctx.prisma.message.create({
-    data: {
-      text,
-      chatRoomId: roomId,
-    },
-  })
-
-  return new Response(JSON.stringify({ success: true }))
