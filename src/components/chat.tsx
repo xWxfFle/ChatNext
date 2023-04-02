@@ -1,12 +1,14 @@
-"use client"
+"use client";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
-import { pusherClient } from "~/utils/pusherClientApi";
+import { pusherClient } from "~/utils/pusherClient";
 
-const Messages: NextPage<{ initialMessages?: string; roomId: string }> = ({
-  initialMessages,
-  roomId,
-}) => {
+interface MessageProps {
+  roomId: string;
+  initialMessages?: { id: string; text: string }[];
+}
+
+const Messages: NextPage<MessageProps> = ({ roomId, initialMessages }) => {
   const [incomingMessages, setIncomingMessages] = useState<string[]>([]);
 
   useEffect(() => {
@@ -19,11 +21,16 @@ const Messages: NextPage<{ initialMessages?: string; roomId: string }> = ({
     return () => {
       pusherClient.unsubscribe(roomId);
     };
-  }, []);
+  });
 
   return (
     <div>
-      hee
+      {initialMessages?.map((message) => (
+        <p key={message.id}>{message.text}</p>
+      ))}
+      {incomingMessages.map((text, i) => (
+        <p key={i}>{text}</p>
+      ))}
     </div>
   );
 };

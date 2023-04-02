@@ -1,4 +1,4 @@
-import { pusherServer } from "~/server/helpers/pusherHelper";
+import { pusherServer } from "~/utils/pusherServer";
 
 import { nanoid } from "nanoid";
 

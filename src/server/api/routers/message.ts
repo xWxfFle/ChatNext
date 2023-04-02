@@ -1,11 +1,10 @@
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { pusherServer } from "~/server/helpers/pusherHelper";
-
+import { pusherServer } from "~/utils/pusherServer";
 
 export const messageRouter = createTRPCRouter({
-  create: publicProcedure
+  send: publicProcedure
     .input(z.object({ roomId: z.string(), text: z.string() }))
     .mutation(async ({ input, ctx }) => {
       await pusherServer.trigger(input.roomId, "incoming-message", input.text);
@@ -18,9 +17,9 @@ export const messageRouter = createTRPCRouter({
 
       return message;
     }),
-  getAllMessageById: publicProcedure
+  getAllMessageByRoomId: publicProcedure
     .input(z.object({ roomId: z.string() }))
-    .mutation(async ({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       const messages = await ctx.prisma.message.findMany({
         where: {
           chatRoomId: input.roomId,
