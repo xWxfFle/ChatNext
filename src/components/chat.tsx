@@ -12,6 +12,7 @@ const Messages: NextPage<MessageProps> = ({ roomId, initialMessages }) => {
   const [incomingMessages, setIncomingMessages] = useState<string[]>([]);
 
   useEffect(() => {
+    console.log(pusherClient)
     pusherClient.subscribe(roomId);
 
     pusherClient.bind("incoming-message", (text: string) => {
@@ -21,7 +22,7 @@ const Messages: NextPage<MessageProps> = ({ roomId, initialMessages }) => {
     return () => {
       pusherClient.unsubscribe(roomId);
     };
-  });
+  }, [roomId]);
 
   return (
     <div>

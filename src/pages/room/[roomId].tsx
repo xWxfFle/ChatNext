@@ -6,18 +6,24 @@ import Messages from "~/components/chat";
 import MessageField from "~/components/chatForm";
 
 const RoomPage: NextPage<{ roomId: string }> = ({ roomId }) => {
-  const { data } = api.rooms.getRoomById.useQuery({ roomId });
+  const { data } = api.rooms.getRoomById.useQuery(
+    { roomId },
+    { refetchOnWindowFocus: false, refetchOnMount: false }
+  );
 
-  if (!data) return <Custom404 сustomMessage="404 - This room does not exist" />;
-    
-   const messages = api.message.getAllMessageByRoomId.useQuery({
-     roomId,
-   });
-   const preveousMessages = messages.data?.map((message) => ({
-     text: message.text,
-     id: message.id,
-   }));
+  if (!data)
+    return <Custom404 сustomMessage="404 - This room does not exist" />;
 
+  const messages = api.message.getAllMessageByRoomId.useQuery(
+    {
+      roomId,
+    },
+    { refetchOnWindowFocus: false, refetchOnMount: false }
+  );
+  const preveousMessages = messages.data?.map((message) => ({
+    text: message.text,
+    id: message.id,
+  }));
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
@@ -38,6 +44,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   if (typeof roomId !== "string") throw new Error("no id");
 
   await ssg.rooms.getRoomById.prefetch({ roomId });
+  await ssg.message.getAllMessageByRoomId.prefetch({roomId})
 
   return {
     props: {
