@@ -2,8 +2,6 @@
 
 import type { NextPage } from "next";
 import { api } from "~/utils/api";
-import { Input } from "./ui/Input";
-import { Button } from "./ui/Button";
 
 const MessageField: NextPage<{ roomId: string}> = ({ roomId }) => {
   let input = "";
@@ -12,14 +10,15 @@ const MessageField: NextPage<{ roomId: string}> = ({ roomId }) => {
 
   return (
     <div className="flex gap-2">
-      <Input
+      <input
+        className="input"
         onChange={({ target }) => (input = target.value)}
         placeholder="Text Message"
         type="text"
       />
-      <Button onClick={() => sendMessage.mutate({ roomId, text: input })}>
+      <button className="btn" onClick={() => sendMessage.mutate({ roomId, text: input })}>
         send
-      </Button>
+      </button>
     </div>
   );
 };

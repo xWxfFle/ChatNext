@@ -1,7 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { Button } from "~/components/ui/Button";
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
@@ -21,12 +20,12 @@ const Home: NextPage = () => {
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
         <div >
-          <Button
+          <button
             onClick={() => mutate()}
             className="text-3xl"
           >
             Create room
-          </Button>
+          </button>
         </div>
       </main>
     </>

@@ -12,8 +12,8 @@ const oxygen = Oxygen({
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <main className={oxygen.className}>
-      <Component {...pageProps} data-theme="dark" />
+    <main className={oxygen.className} >
+      <Component {...pageProps}/>
     </main>
   );
 };

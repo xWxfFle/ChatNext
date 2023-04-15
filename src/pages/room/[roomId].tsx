@@ -26,11 +26,14 @@ const RoomPage: NextPage<{ roomId: string }> = ({ roomId }) => {
   }));
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-      <div>
-        <p className="text-3xl text-gray-50">Hello from room: {data.id}</p>
-        <Messages roomId={data.id} initialMessages={preveousMessages} />
-        <MessageField roomId={data.id}></MessageField>
+    <main className="flex min-h-screen flex-col items-center justify-center ">
+      <div className=" card  bg-primary ">
+        <div className="card-body">
+          <h1 className="text-xl">Hello from room: {data.id}</h1>
+          <div className="divider"></div>
+          <Messages roomId={data.id} initialMessages={preveousMessages} />
+          <MessageField roomId={data.id}></MessageField>
+        </div>
       </div>
     </main>
   );
@@ -44,7 +47,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   if (typeof roomId !== "string") throw new Error("no id");
 
   await ssg.rooms.getRoomById.prefetch({ roomId });
-  await ssg.message.getAllMessageByRoomId.prefetch({roomId})
+  await ssg.message.getAllMessageByRoomId.prefetch({ roomId });
 
   return {
     props: {

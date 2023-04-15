@@ -1,6 +1,6 @@
 "use client";
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { pusherClient } from "~/lib/pusherClient";
 
 interface MessageProps {
@@ -10,6 +10,7 @@ interface MessageProps {
 
 const Messages: NextPage<MessageProps> = ({ roomId, initialMessages }) => {
   const [incomingMessages, setIncomingMessages] = useState<string[]>([]);
+  const field = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     pusherClient.subscribe(roomId);
@@ -18,19 +19,30 @@ const Messages: NextPage<MessageProps> = ({ roomId, initialMessages }) => {
     pusherClient.bind("incoming-message", (text: string) => {
       setIncomingMessages((prev) => [...prev, text]);
     });
-    
+
     return () => {
       pusherClient.unsubscribe(roomId);
     };
   }, [roomId]);
 
+  useEffect(() => {
+    field.current?.scrollTo(0, field.current.scrollHeight);
+  }, [incomingMessages]);
+
   return (
-    <div>
+    <div
+      ref={field}
+      className="carousel-vertical carousel-end carousel  max-h-96"
+    >
       {initialMessages?.map((message) => (
-        <p key={message.id}>{message.text}</p>
+        <div className="chat chat-start" key={message.id}>
+          <div className="chat-bubble">{message.text}</div>
+        </div>
       ))}
       {incomingMessages.map((text, i) => (
-        <p key={i}>{text}</p>
+        <div className=" chat chat-end" key={i}>
+          <div className="chat-bubble">{text}</div>
+        </div>
       ))}
     </div>
   );
