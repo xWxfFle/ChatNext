@@ -1,6 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { Button } from "~/components/ui/Button";
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
@@ -19,10 +20,13 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        <div>
-          <button onClick={() => mutate()} className="text-3xl text-gray-50">
+        <div >
+          <Button
+            onClick={() => mutate()}
+            className="text-3xl"
+          >
             Create room
-          </button>
+          </Button>
         </div>
       </main>
     </>

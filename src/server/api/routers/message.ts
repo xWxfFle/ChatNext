@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { pusherServer } from "~/utils/pusherServer";
+import { pusherServer } from "~/lib/pusherServer";
 
 export const messageRouter = createTRPCRouter({
   send: publicProcedure
