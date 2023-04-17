@@ -27,14 +27,15 @@ const RoomPage: NextPage<{ roomId: string }> = ({ roomId }) => {
 
   return (
     <PageLayout>
-      <div className="divider"></div>
-      <h1 className="text-2xl">
-        Room Id: <span className="text-primary-content">{data.id}</span>
-      </h1>
-      <div className="divider"></div>
       <Messages roomId={data.id} initialMessages={preveousMessages} />
       <div className="divider"></div>
       <ChatForm roomId={data.id}></ChatForm>
+      <div className="max-w-md">
+        <h1 className="text-2xl">
+          Room Id: <span className="text-primary-content">{data.id}</span>
+        </h1>
+      </div>
+      <div className="divider"></div>
     </PageLayout>
   );
 };

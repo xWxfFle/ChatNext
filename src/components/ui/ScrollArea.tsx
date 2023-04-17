@@ -2,7 +2,7 @@ import React, { type PropsWithChildren } from "react";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 
 const ScrollAreaDemo = (props: PropsWithChildren) => (
-  <ScrollArea.Root className="grow overflow-hidden rounded bg-base-200">
+  <ScrollArea.Root className="grow overflow-hidden  bg-base-200">
     <ScrollArea.Viewport className="h-full w-full rounded">
       <div className="h-full py-[15px] px-4 ">{props.children}</div>
     </ScrollArea.Viewport>

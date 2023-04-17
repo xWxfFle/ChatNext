@@ -6,20 +6,33 @@ import { PageLayout } from "~/components/layot";
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
+  const [input, setInput] = useState("");
+  const [disabled, setDisabled] = useState(true);
+
   const router = useRouter();
 
-  const { mutate } = api.rooms.create.useMutation({
+  const createRoom = api.rooms.create.useMutation({
     onSuccess: async (data) => {
       await router.push(`/room/${data.id}`);
     },
   });
 
-  const [input, setInput] = useState("");
-  const [disabled, setDisabled] = useState(true);
-
   useEffect(() => {
     input.trim().length === 0 ? setDisabled(true) : setDisabled(false);
   }, [input]);
+
+  const joinRoomById = api.rooms.getRoomById.useQuery(
+    { roomId: input },
+    {
+      onSuccess: (data) => {
+        void router.push(`/room/${data.id}`);
+      },
+      onError: () => {
+        console.log("Smt bad");
+      },
+      enabled: false,
+    }
+  );
 
   return (
     <>
@@ -33,33 +46,37 @@ const Home: NextPage = () => {
           <div className="hero-content text-center">
             <div className="max-w-md">
               <h1 className="text-5xl font-bold">Hello there</h1>
-              <p className="py-8">
+              <p className="py-10">
                 Provident cupiditate voluptatem et in. Quaerat fugiat ut
                 assumenda excepturi exercitationem quasi. In deleniti eaque aut
                 repudiandae et a id nisi.
               </p>
               <button
                 className="btn-primary btn-block btn"
-                onClick={() => mutate()}
+                onClick={() => createRoom.mutate()}
               >
                 Create room
               </button>
               <div className="divider">OR</div>
-              <div className="flex gap-3">
-                <input
-                  type="text"
-                  placeholder="Paste room Id"
-                  className="input-bordered input w-full"
-                  onChange={({ target }) => setInput(target.value)}
-                  value={input}
-                />
-                <button
-                  className="btn-primary btn"
-                  disabled={disabled}
-                  onClick={() => mutate()}
-                >
-                  Join Room
-                </button>
+              <div className="form-control">
+                <div className="input-group">
+                  <input
+                    type="text"
+                    placeholder="Paste room Id"
+                    className="input-bordered input w-full"
+                    onChange={({ target }) => setInput(target.value)}
+                    value={input}
+                  />
+                  <button
+                    className="btn-primary btn"
+                    disabled={disabled}
+                    onClick={() => {
+                      void joinRoomById.refetch();
+                    }}
+                  >
+                    Join Room
+                  </button>
+                </div>
               </div>
             </div>
           </div>

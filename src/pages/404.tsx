@@ -14,9 +14,7 @@ const Custom404: NextPage<{ сustomMessage?: string }> = ({ сustomMessage }) =>
 
         <button
           className="btn-primary btn w-2/3"
-          onClick={() => {
-            void router.push("/");
-          }}
+          onClick={() => void router.push("/")}
         >
           Back
         </button>
