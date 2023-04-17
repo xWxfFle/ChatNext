@@ -3,7 +3,8 @@ import { generateSSGHelper } from "~/server/helpers/ssgHelper";
 import { api } from "~/utils/api";
 import Custom404 from "../404";
 import Messages from "~/components/chat";
-import MessageField from "~/components/chatForm";
+import ChatForm from "~/components/chatForm";
+import { PageLayout } from "~/components/layot";
 
 const RoomPage: NextPage<{ roomId: string }> = ({ roomId }) => {
   const { data } = api.rooms.getRoomById.useQuery(
@@ -11,8 +12,7 @@ const RoomPage: NextPage<{ roomId: string }> = ({ roomId }) => {
     { refetchOnWindowFocus: false, refetchOnMount: false }
   );
 
-  if (!data)
-    return <Custom404 сustomMessage="404 - This room does not exist" />;
+  if (!data) return <Custom404 сustomMessage="404 - Room Not Found" />;
 
   const messages = api.message.getAllMessageByRoomId.useQuery(
     {
@@ -26,16 +26,16 @@ const RoomPage: NextPage<{ roomId: string }> = ({ roomId }) => {
   }));
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center ">
-      <div className=" card  bg-primary ">
-        <div className="card-body">
-          <h1 className="text-xl">Hello from room: {data.id}</h1>
-          <div className="divider"></div>
-          <Messages roomId={data.id} initialMessages={preveousMessages} />
-          <MessageField roomId={data.id}></MessageField>
-        </div>
-      </div>
-    </main>
+    <PageLayout>
+      <div className="divider"></div>
+      <h1 className="text-2xl">
+        Room Id: <span className="text-primary-content">{data.id}</span>
+      </h1>
+      <div className="divider"></div>
+      <Messages roomId={data.id} initialMessages={preveousMessages} />
+      <div className="divider"></div>
+      <ChatForm roomId={data.id}></ChatForm>
+    </PageLayout>
   );
 };
 

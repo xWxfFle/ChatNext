@@ -1,14 +1,27 @@
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
+import { PageLayout } from "~/components/layot";
 
-const Custom404: NextPage<{сustomMessage?: string}> = ({ сustomMessage}) => {
+const Custom404: NextPage<{ сustomMessage?: string }> = ({ сustomMessage }) => {
+  const router = useRouter();
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-      <div>
-        <p className="text-3xl text-gray-50">
+    <PageLayout>
+      <div className="flex h-full flex-col items-center justify-center">
+        <h1 className="py-4 text-3xl">
           {сustomMessage ? сustomMessage : "404 - Page Not Found"}
-        </p>
+        </h1>
+
+        <button
+          className="btn-primary btn w-2/3"
+          onClick={() => {
+            void router.push("/");
+          }}
+        >
+          Back
+        </button>
       </div>
-    </main>
+    </PageLayout>
   );
 };
 export default Custom404;

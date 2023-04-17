@@ -1,7 +1,8 @@
 "use client";
 import type { NextPage } from "next";
-import { useEffect, useRef, useState } from "react";
+import { useEffect,useState } from "react";
 import { pusherClient } from "~/lib/pusherClient";
+import ScrollAreaDemo from "./ui/ScrollArea";
 
 interface MessageProps {
   roomId: string;
@@ -10,8 +11,6 @@ interface MessageProps {
 
 const Messages: NextPage<MessageProps> = ({ roomId, initialMessages }) => {
   const [incomingMessages, setIncomingMessages] = useState<string[]>([]);
-  const field = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     pusherClient.subscribe(roomId);
 
@@ -25,26 +24,23 @@ const Messages: NextPage<MessageProps> = ({ roomId, initialMessages }) => {
     };
   }, [roomId]);
 
-  useEffect(() => {
-    field.current?.scrollTo(0, field.current.scrollHeight);
-  }, [incomingMessages]);
-
   return (
-    <div
-      ref={field}
-      className="carousel-vertical carousel-end carousel  max-h-96"
-    >
+    <ScrollAreaDemo>
       {initialMessages?.map((message) => (
         <div className="chat chat-start" key={message.id}>
-          <div className="chat-bubble">{message.text}</div>
+          <div className="chat-bubble chat-bubble-primary break-all">
+            {message.text}
+          </div>
         </div>
       ))}
       {incomingMessages.map((text, i) => (
         <div className=" chat chat-end" key={i}>
-          <div className="chat-bubble">{text}</div>
+          <div className="chat-bubble chat-bubble-secondary break-all">
+            {text}
+          </div>
         </div>
       ))}
-    </div>
+    </ScrollAreaDemo>
   );
 };
 
