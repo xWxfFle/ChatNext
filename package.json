@@ -1,5 +1,5 @@
 {
-  "name": "chat-next-trpc",
+  "name": "chat-next",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -19,15 +19,16 @@
     "@trpc/server": "^10.9.0",
     "daisyui": "^2.51.5",
     "next": "^13.2.1",
+    "next-themes": "^0.2.1",
     "pusher": "^5.1.2",
     "pusher-js": "^8.0.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hot-toast": "^2.4.0",
     "superjson": "1.9.1",
     "zod": "^3.20.6"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.9",
     "@types/eslint": "^8.21.1",
     "@types/node": "^18.14.0",
     "@types/prettier": "^2.7.2",

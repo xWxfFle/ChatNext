@@ -9,7 +9,7 @@ import { PageLayout } from "~/components/layot";
 const RoomPage: NextPage<{ roomId: string }> = ({ roomId }) => {
   const { data } = api.rooms.getRoomById.useQuery(
     { roomId },
-    { refetchOnWindowFocus: false, refetchOnMount: false }
+    { refetchOnWindowFocus: false }
   );
 
   if (!data) return <Custom404 сustomMessage="404 - Room Not Found" />;
@@ -18,7 +18,7 @@ const RoomPage: NextPage<{ roomId: string }> = ({ roomId }) => {
     {
       roomId,
     },
-    { refetchOnWindowFocus: false, refetchOnMount: false }
+    { refetchOnWindowFocus: false }
   );
   const preveousMessages = messages.data?.map((message) => ({
     text: message.text,
@@ -30,9 +30,9 @@ const RoomPage: NextPage<{ roomId: string }> = ({ roomId }) => {
       <Messages roomId={data.id} initialMessages={preveousMessages} />
       <div className="divider"></div>
       <ChatForm roomId={data.id}></ChatForm>
-      <div className="max-w-md">
-        <h1 className="text-2xl">
-          Room Id: <span className="text-primary-content">{data.id}</span>
+      <div className="w-full text-center">
+        <h1 className="text-xl">
+          Room id: <span className="text-primary">{data.id}</span>
         </h1>
       </div>
       <div className="divider"></div>

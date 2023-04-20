@@ -1,7 +1,9 @@
-import { useRouter } from "next/router";
+import { useTheme } from "next-themes";
+import Link from "next/link";
 
 const NavBar = () => {
-  const router = useRouter()
+  const { theme, setTheme } = useTheme();
+
   return (
     <div className="navbar bg-base-300 ">
       <div className="navbar-start">
@@ -9,7 +11,7 @@ const NavBar = () => {
           <label tabIndex={0} className="btn-ghost btn-circle btn">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-8 w-8"
+              className="h-10 w-10"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -27,13 +29,19 @@ const NavBar = () => {
             className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
           >
             <li>
-              <a onClick={() => void router.push("/")}>Homepage</a>
+              <Link href="/">Home</Link>
             </li>
             <li>
-              <a>Portfolio</a>
+              <a
+                onClick={() => {
+                  setTheme("cyberpunk");
+                }}
+              >
+                Activate secret theme
+              </a>
             </li>
             <li>
-              <a>About</a>
+              <a>Telegram: @xWxfFle</a>
             </li>
           </ul>
         </div>
@@ -42,10 +50,13 @@ const NavBar = () => {
       <div className="navbar-end">
         <button className="btn-ghost btn-circle btn">
           <label className="swap-rotate swap">
-            <input type="checkbox" />
+            <input type="checkbox" checked={theme === "light"} />
 
             <svg
-              className="swap-on h-8 w-8 fill-primary"
+              className="swap-on h-10 w-10 fill-primary"
+              onClick={() => {
+                setTheme("light");
+              }}
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
             >
@@ -53,7 +64,10 @@ const NavBar = () => {
             </svg>
 
             <svg
-              className="swap-off h-8 w-8 fill-primary"
+              className="swap-off h-10 w-10 fill-primary"
+              onClick={() => {
+                setTheme("dark");
+              }}
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
             >

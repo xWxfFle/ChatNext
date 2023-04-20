@@ -28,14 +28,14 @@ const Messages: NextPage<MessageProps> = ({ roomId, initialMessages }) => {
     <ScrollAreaDemo>
       {initialMessages?.map((message) => (
         <div className="chat chat-start" key={message.id}>
-          <div className="chat-bubble chat-bubble-primary break-all">
+          <div className="chat-bubble chat-bubble-secondary break-all">
             {message.text}
           </div>
         </div>
       ))}
       {incomingMessages.map((text, i) => (
         <div className=" chat chat-end" key={i}>
-          <div className="chat-bubble chat-bubble-secondary break-all">
+          <div className="chat-bubble chat-bubble-primary break-all">
             {text}
           </div>
         </div>

@@ -1,3 +1,6 @@
+import { ThemeProvider } from "next-themes";
+import Head from "next/head";
+
 import { type AppType } from "next/app";
 import { Oxygen } from "next/font/google";
 
@@ -13,7 +16,14 @@ const oxygen = Oxygen({
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <main className={oxygen.className}>
-      <Component {...pageProps} />
+      <ThemeProvider>
+        <Head>
+          <title>Chat Next⚡</title>
+          <meta name="description" content="💬" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <Component {...pageProps} />
+      </ThemeProvider>
     </main>
   );
 };
