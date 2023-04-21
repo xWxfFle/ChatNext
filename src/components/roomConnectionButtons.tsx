@@ -14,7 +14,7 @@ const RoomConnectionButtons = () => {
     },
   });
 
-  const joinRoomById = api.rooms.getRoomById.useQuery(
+  const joinRoomById = api.rooms.getById.useQuery(
     { roomId: input },
     {
       onSuccess: (data) => {

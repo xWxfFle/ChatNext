@@ -22,6 +22,7 @@ model Message {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   text       String
+  username String
   chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
   chatRoomId String
 }

@@ -8,23 +8,7 @@ export const roomsRouter = createTRPCRouter({
     return room;
   }),
 
-  delete: publicProcedure
-    .input(z.object({ roomId: z.string() }))
-    .mutation(async ({ ctx, input }) => {
-      const message = await ctx.prisma.message.deleteMany({
-        where: {
-          chatRoomId: input.roomId,
-        },
-      });
-      const room = await ctx.prisma.chatRoom.delete({
-        where: {
-          id: input.roomId,
-        },
-      });
-      return { room, message };
-    }),
-
-  getRoomById: publicProcedure
+  getById: publicProcedure
     .input(z.object({ roomId: z.string() }))
     .query(async ({ ctx, input }) => {
       const room = await ctx.prisma.chatRoom.findUnique({

@@ -5,19 +5,20 @@ import { pusherServer } from "~/lib/pusherServer";
 
 export const messageRouter = createTRPCRouter({
   send: publicProcedure
-    .input(z.object({ roomId: z.string(), text: z.string() }))
+    .input(z.object({ roomId: z.string(), text: z.string(), username: z.string() }))
     .mutation(async ({ input, ctx }) => {
       await pusherServer.trigger(input.roomId, "incoming-message", input.text);
       const message = await ctx.prisma.message.create({
         data: {
           text: input.text,
+          username: input.username,
           chatRoomId: input.roomId,
         },
       });
 
       return message;
     }),
-  getAllMessageByRoomId: publicProcedure
+  getAllByRoomId: publicProcedure
     .input(z.object({ roomId: z.string() }))
     .query(async ({ ctx, input }) => {
       const messages = await ctx.prisma.message.findMany({

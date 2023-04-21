@@ -4,7 +4,10 @@ import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 
-const ChatForm: NextPage<{ roomId: string }> = ({ roomId }) => {
+const ChatForm: NextPage<{ roomId: string; username: string }> = ({
+  roomId,
+  username,
+}) => {
   const sendMessage = api.message.send.useMutation();
 
   const [input, setInput] = useState("");
@@ -27,7 +30,7 @@ const ChatForm: NextPage<{ roomId: string }> = ({ roomId }) => {
         className="btn-primary btn"
         disabled={disabled}
         onClick={() => {
-          sendMessage.mutate({ roomId, text: input });
+          sendMessage.mutate({ roomId, text: input, username });
           setInput("");
         }}
       >

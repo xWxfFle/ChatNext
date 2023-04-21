@@ -11,7 +11,7 @@ const Home: NextPage = () => {
             <h1 className="text-5xl font-bold">Chat-Next</h1>
             <p className="py-10">
               Small chat app made with React, Next.js, tRPC and Prisma.
-              Real-time WebSocket connection with Pusher. Powered by Vercel 💜
+              Real-time WebSocket connection with Pusher. Powered by Vercel ❤
             </p>
             <RoomConnectionButtons />
           </div>
