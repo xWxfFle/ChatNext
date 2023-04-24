@@ -2,14 +2,11 @@
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { pusherClient } from "~/lib/pusherClient";
-import ScrollAreaDemo from "./ui/scrollArea";
+import ScrollAreaDemo from "./ui/ScrollArea";
 import { api } from "~/utils/api";
 import type { Message } from "@prisma/client";
 
-const Chat: NextPage<{ roomId: string; username: string }> = ({
-  roomId,
-  username,
-}) => {
+const Chat: NextPage<{ roomId: string; username: string }> = ({ roomId }) => {
   const [messages, setMessages] = useState<Message[]>([]);
 
   api.message.getAllByRoomId.useQuery(
