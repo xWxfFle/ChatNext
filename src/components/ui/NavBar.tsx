@@ -50,7 +50,12 @@ const NavBar = () => {
       <div className="navbar-end">
         <button className="btn-ghost btn-circle btn">
           <label className="swap-rotate swap">
-            <input type="checkbox" checked={theme === "light"} />
+            {/* Definitely not best solution */}
+            <input
+              type="checkbox"
+              checked={theme === "light"}
+              onChange={() => null}
+            />
 
             <svg
               className="swap-on h-10 w-10 fill-primary"

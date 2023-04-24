@@ -5,9 +5,15 @@ import { pusherServer } from "~/lib/pusherServer";
 
 export const messageRouter = createTRPCRouter({
   send: publicProcedure
-    .input(z.object({ roomId: z.string(), text: z.string(), username: z.string() }))
+    .input(
+      z.object({ roomId: z.string(), text: z.string(), username: z.string() })
+    )
     .mutation(async ({ input, ctx }) => {
-      await pusherServer.trigger(input.roomId, "incoming-message", input.text);
+      await pusherServer.trigger(input.roomId, "incoming-message", {
+        text: input.text,
+        username: input.username,
+      });
+
       const message = await ctx.prisma.message.create({
         data: {
           text: input.text,

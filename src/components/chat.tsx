@@ -1,22 +1,30 @@
 "use client";
 import type { NextPage } from "next";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { pusherClient } from "~/lib/pusherClient";
-import ScrollAreaDemo from "./ui/ScrollArea";
+import ScrollAreaDemo from "./ui/scrollArea";
+import { api } from "~/utils/api";
+import type { Message } from "@prisma/client";
 
-interface MessageProps {
-  roomId: string;
-  initialMessages?: { id: string; text: string }[];
-}
+const Chat: NextPage<{ roomId: string; username: string }> = ({
+  roomId,
+  username,
+}) => {
+  const [messages, setMessages] = useState<Message[]>([]);
 
-const Messages: NextPage<MessageProps> = ({ roomId, initialMessages }) => {
-  const [incomingMessages, setIncomingMessages] = useState<string[]>([]);
+  api.message.getAllByRoomId.useQuery(
+    { roomId: roomId },
+    {
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => setMessages(data),
+    }
+  );
+
   useEffect(() => {
     pusherClient.subscribe(roomId);
-
     pusherClient.unbind_all();
-    pusherClient.bind("incoming-message", (text: string) => {
-      setIncomingMessages((prev) => [...prev, text]);
+    pusherClient.bind("incoming-message", (message: Message) => {
+      setMessages((prev) => [...prev, message]);
     });
 
     return () => {
@@ -26,17 +34,11 @@ const Messages: NextPage<MessageProps> = ({ roomId, initialMessages }) => {
 
   return (
     <ScrollAreaDemo>
-      {initialMessages?.map((message) => (
-        <div className="chat chat-start" key={message.id}>
-          <div className="chat-bubble chat-bubble-secondary break-all">
-            {message.text}
-          </div>
-        </div>
-      ))}
-      {incomingMessages.map((text, i) => (
-        <div className=" chat chat-end" key={i}>
+      {messages.map((message, index) => (
+        <div className=" chat chat-end" key={index}>
+          <div className="chat-header">{message.username}</div>
           <div className="chat-bubble chat-bubble-primary break-all">
-            {text}
+            {message.text}
           </div>
         </div>
       ))}
@@ -44,4 +46,4 @@ const Messages: NextPage<MessageProps> = ({ roomId, initialMessages }) => {
   );
 };
 
-export default Messages;
+export default Chat;

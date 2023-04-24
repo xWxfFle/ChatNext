@@ -2,9 +2,9 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { generateSSGHelper } from "~/server/helpers/ssgHelper";
 import { api } from "~/utils/api";
 import Custom404 from "../404";
-import Messages from "~/components/chat";
 import ChatForm from "~/components/chatForm";
 import { PageLayout } from "~/components/layot";
+import Chat from "~/components/chat";
 
 const RoomPage: NextPage<{ roomId: string }> = ({ roomId }) => {
   const { data } = api.rooms.getById.useQuery(
@@ -14,20 +14,9 @@ const RoomPage: NextPage<{ roomId: string }> = ({ roomId }) => {
 
   if (!data) return <Custom404 сustomMessage="404 - Room Not Found" />;
 
-  const messages = api.message.getAllByRoomId.useQuery(
-    {
-      roomId,
-    },
-    { refetchOnWindowFocus: false }
-  );
-  const preveousMessages = messages.data?.map((message) => ({
-    text: message.text,
-    id: message.id,
-  }));
-
   return (
     <PageLayout>
-      <Messages roomId={data.id} initialMessages={preveousMessages} />
+      <Chat roomId={data.id} username="User"/>
       <div className="divider"></div>
       <ChatForm roomId={data.id} username="User"></ChatForm>
       <div className="w-full text-center">
@@ -48,7 +37,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
   if (typeof roomId !== "string") throw new Error("no id");
 
   await ssg.rooms.getById.prefetch({ roomId });
-  await ssg.message.getAllByRoomId.prefetch({ roomId });
 
   return {
     props: {
