@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 
 const RoomConnectionButtons = () => {
@@ -21,7 +22,7 @@ const RoomConnectionButtons = () => {
         void router.push(`/room/${data.id}`);
       },
       onError: () => {
-        console.log("Smt bad");
+        toast.error("This room does not exist");
       },
       enabled: false,
     }
@@ -41,7 +42,12 @@ const RoomConnectionButtons = () => {
       </button>
       <div className="divider">OR</div>
       <div className="form-control">
-        <div className="input-group">
+        <form
+          className="input-group"
+          onSubmit={() => {
+            void joinRoomById.refetch();
+          }}
+        >
           <input
             type="text"
             placeholder="Paste room Id"
@@ -49,16 +55,10 @@ const RoomConnectionButtons = () => {
             onChange={({ target }) => setInput(target.value)}
             value={input}
           />
-          <button
-            className="btn-primary btn"
-            disabled={disabled}
-            onClick={() => {
-              void joinRoomById.refetch();
-            }}
-          >
+          <button className="btn-primary btn" disabled={disabled}>
             Join Room
           </button>
-        </div>
+        </form>
       </div>
     </>
   );
