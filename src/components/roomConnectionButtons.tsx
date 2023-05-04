@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 
-const RoomConnectionButtons = () => {
+export const RoomConnectionButtons = () => {
   const [input, setInput] = useState("");
   const [disabled, setDisabled] = useState(true);
 
@@ -28,6 +28,11 @@ const RoomConnectionButtons = () => {
     }
   );
 
+  const onFormSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    void joinRoomById.refetch();
+  };
+
   useEffect(() => {
     input.trim().length === 0 ? setDisabled(true) : setDisabled(false);
   }, [input]);
@@ -42,12 +47,7 @@ const RoomConnectionButtons = () => {
       </button>
       <div className="divider">OR</div>
       <div className="form-control">
-        <form
-          className="input-group"
-          onSubmit={() => {
-            void joinRoomById.refetch();
-          }}
-        >
+        <form className="input-group" onSubmit={onFormSubmit}>
           <input
             type="text"
             placeholder="Paste room Id"
@@ -63,4 +63,3 @@ const RoomConnectionButtons = () => {
     </>
   );
 };
-export default RoomConnectionButtons;

@@ -9,9 +9,9 @@ const Custom404: NextPage<{ сustomMessage?: string }> = ({ сustomMessage }) =>
         <h1 className="py-4 text-3xl">
           {сustomMessage ? сustomMessage : "404 - Page Not Found"}
         </h1>
-        <button className="btn-primary btn w-2/3">
-          <Link href="/">Back</Link>
-        </button>
+          <Link className="btn-primary btn w-2/3" href="/">
+            Back
+          </Link>
       </div>
     </PageLayout>
   );

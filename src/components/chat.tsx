@@ -1,13 +1,14 @@
 "use client";
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { pusherClient } from "~/lib/pusherClient";
-import ScrollAreaDemo from "./ui/ScrollArea";
+import { ChatAreaWithScroll } from "./ui/ScrollArea";
 import { api } from "~/utils/api";
 import type { Message } from "@prisma/client";
 
 const Chat: NextPage<{ roomId: string; username: string }> = ({ roomId }) => {
   const [messages, setMessages] = useState<Message[]>([]);
+  const chat = useRef<typeof ChatAreaWithScroll>();
 
   api.message.getAllByRoomId.useQuery(
     { roomId: roomId },
@@ -30,7 +31,7 @@ const Chat: NextPage<{ roomId: string; username: string }> = ({ roomId }) => {
   }, [roomId]);
 
   return (
-    <ScrollAreaDemo>
+    <ChatAreaWithScroll ref={chat}>
       {messages.map((message, index) => (
         <div className=" chat chat-end" key={index}>
           <div className="chat-header">{message.username}</div>
@@ -39,7 +40,7 @@ const Chat: NextPage<{ roomId: string; username: string }> = ({ roomId }) => {
           </div>
         </div>
       ))}
-    </ScrollAreaDemo>
+    </ChatAreaWithScroll>
   );
 };
 

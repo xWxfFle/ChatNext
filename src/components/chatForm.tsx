@@ -19,7 +19,6 @@ const ChatForm: NextPage<{ roomId: string; username: string }> = ({
   const [disabled, setDisabled] = useState(true);
   const onFormSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     sendMessage.mutate({ roomId, text: input, username });
     setInput("");
   };

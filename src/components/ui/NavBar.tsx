@@ -1,7 +1,7 @@
 import { useTheme } from "next-themes";
 import Link from "next/link";
 
-const NavBar = () => {
+export const NavBar = () => {
   const { theme, setTheme } = useTheme();
 
   return (
@@ -32,6 +32,12 @@ const NavBar = () => {
               <Link href="/">Home</Link>
             </li>
             <li>
+              <a href="https://t.me/xWxfFle">Telegram</a>
+            </li>
+            <li>
+              <a href="https://github.com/xWxfFle">Github</a>
+            </li>
+            <li>
               <a
                 onClick={() => {
                   setTheme("cyberpunk");
@@ -39,9 +45,6 @@ const NavBar = () => {
               >
                 Activate secret theme
               </a>
-            </li>
-            <li>
-              <a>Telegram: @xWxfFle</a>
             </li>
           </ul>
         </div>
@@ -84,4 +87,3 @@ const NavBar = () => {
     </div>
   );
 };
-export default NavBar;
