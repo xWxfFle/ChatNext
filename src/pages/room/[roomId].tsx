@@ -2,7 +2,7 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { generateSSGHelper } from "~/server/helpers/ssgHelper";
 import { api } from "~/utils/api";
 import Custom404 from "../404";
-import ChatForm from "~/components/chatForm";
+import ChatForm from "~/components/chat-form";
 import { PageLayout } from "~/components/layot";
 import Chat from "~/components/chat";
 

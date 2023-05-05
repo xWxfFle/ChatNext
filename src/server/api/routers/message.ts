@@ -5,6 +5,7 @@ import { pusherServer } from "~/lib/pusherServer";
 
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
+import { nanoid } from 'nanoid'
 import { TRPCError } from "@trpc/server";
 
 // Create a new ratelimiter, that allows 3 requests per 10 seconds
@@ -26,6 +27,7 @@ export const messageRouter = createTRPCRouter({
       await pusherServer.trigger(input.roomId, "incoming-message", {
         text: input.text,
         username: input.username,
+        id: nanoid()
       });
 
       const message = await ctx.prisma.message.create({

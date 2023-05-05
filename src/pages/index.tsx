@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
 import { PageLayout } from "~/components/layot";
-import { RoomConnectionButtons } from "~/components/roomConnectionButtons";
+import { RoomConnectionButtons } from "~/components/room-connection-buttons";
 
 const Home: NextPage = () => {
   return (

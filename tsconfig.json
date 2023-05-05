@@ -27,7 +27,8 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.cjs",
-    "**/*.mjs"
-, "src/components/roomConnectionButtons.tsx"  ],
+    "**/*.mjs",
+    "src/components/room-connection-buttons.tsx"
+  ],
   "exclude": ["node_modules"]
 }
