@@ -25,11 +25,18 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         </Head>
         <Toaster
           toastOptions={{
-            className: "",
             position: "bottom-center",
-            iconTheme: {
-              primary: "hsl(var(--er))",
-              secondary: "hsl(var(--pc))",
+            error: {
+              iconTheme: {
+                primary: "hsl(var(--er))",
+                secondary: "hsl(var(--pc))",
+              },
+            },
+            success: {
+              iconTheme: {
+                primary: "hsl(var(--su))",
+                secondary: "hsl(var(--pc))",
+              },
             },
             style: {
               padding: "16px",

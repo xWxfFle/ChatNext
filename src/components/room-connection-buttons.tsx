@@ -31,6 +31,7 @@ export const RoomConnectionButtons = () => {
 
   const onFormSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    toast("Trying to connect to the room...");
     void joinRoomById.refetch();
   };
 
@@ -42,7 +43,10 @@ export const RoomConnectionButtons = () => {
     <>
       <button
         className="btn-primary btn-block btn"
-        onClick={() => createRoom.mutate()}
+        onClick={() => {
+          toast("Room is created, please wait...")
+          createRoom.mutate()
+        }}
       >
         Create room
       </button>

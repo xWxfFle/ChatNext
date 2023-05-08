@@ -9,29 +9,33 @@ import { PageLayout } from "~/components/layot";
 import { Chat } from "~/components/chat-display";
 import { ChatAuthForm } from "~/components/chat-auth-form";
 import { useAtom } from "jotai";
-import { usernameAtom } from "~/lib/atoms";
+import { roomAtom, usernameAtom } from "~/lib/atoms";
 
 const RoomPage: NextPage<{ roomId: string }> = ({ roomId }) => {
+  const [username] = useAtom(usernameAtom);
+  const [,setRoom] = useAtom(roomAtom);
+
   const { data } = api.rooms.getById.useQuery(
     { roomId },
-    { refetchOnWindowFocus: false }
+    {
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        setRoom(data.id);
+      },
+    }
   );
-  const [username] = useAtom(usernameAtom);
 
   if (!data) return <Custom404 сustomMessage="404 - Room Not Found" />;
 
   return (
     <PageLayout>
       <Chat roomId={data.id} />
-      <div className="divider" />
+      <div className="divider h-0" />
       {username && <ChatMessageForm roomId={data.id} />}
       {!username && <ChatAuthForm />}
       <div className="w-full text-center">
-        <h1 className="text-xl">
-          Room id: <span className="text-primary">{data.id}</span>
-        </h1>
       </div>
-      <div className="divider" />
+      <div className="divider h-0" />
     </PageLayout>
   );
 };

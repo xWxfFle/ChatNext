@@ -49,10 +49,8 @@ export const Chat = (props: { roomId: string }) => {
         >
           <div className="chat-header">{message.username}</div>
           <div
-            className={`chat-bubble break-all ${
-              username === message.username
-                ? "chat-bubble-primary"
-                : "chat-bubble-secondary"
+            className={`chat-bubble break-words ${
+              username === message.username ? "chat-bubble-primary" : ""
             }`}
           >
             {message.text}

@@ -1,11 +1,13 @@
 import { useAtom } from "jotai";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-import { usernameAtom } from "~/lib/atoms";
+import { toast } from "react-hot-toast";
+import { roomAtom, usernameAtom } from "~/lib/atoms";
 
 export const NavBar = () => {
   const { theme, setTheme } = useTheme();
   const [username, setUsername] = useAtom(usernameAtom);
+  const [room, setRoom] = useAtom(roomAtom);
 
   return (
     <div className="navbar bg-base-300 ">
@@ -32,7 +34,9 @@ export const NavBar = () => {
             className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
           >
             <li>
-              <Link href="/">Home</Link>
+              <Link href="/" onClick={() => setRoom("")}>
+                Home
+              </Link>
             </li>
             <li>
               <a href="https://t.me/xWxfFle" className="link-hover link">
@@ -63,6 +67,19 @@ export const NavBar = () => {
             )}
           </ul>
         </div>
+      </div>
+      <div className="navbar-center">
+        {room && (
+          <button
+            className="btn-ghost btn"
+            onClick={() => {
+              void navigator.clipboard.writeText(room);
+              toast.success("Room Id copied to your clipboard");
+            }}
+          >
+            Copy room id
+          </button>
+        )}
       </div>
 
       <div className="navbar-end">
