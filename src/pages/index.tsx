@@ -1,4 +1,5 @@
 import { type NextPage } from "next";
+
 import { PageLayout } from "~/components/layot";
 import { RoomConnectionButtons } from "~/components/room-connection-buttons";
 
@@ -8,7 +9,9 @@ const Home: NextPage = () => {
       <div className="hero h-full">
         <div className="hero-content text-center">
           <div className="max-w-md">
-            <h1 className="text-5xl font-bold">Chat-Next</h1>
+            <h1 className="text-5xl font-bold">
+              Chat<span className="text-primary">Next</span>
+            </h1>
             <p className="py-10">
               Small chat app made with React, Next.js, tRPC and Prisma.
               Real-time WebSocket connection with Pusher and ratelimiting with

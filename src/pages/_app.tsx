@@ -1,8 +1,8 @@
 import { type AppType } from "next/app";
-
 import { Oxygen } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import Head from "next/head";
+
 import { Toaster } from "react-hot-toast";
 
 import { api } from "~/utils/api";
@@ -19,7 +19,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
     <main className={oxygen.className}>
       <ThemeProvider>
         <Head>
-          <title>Chat Next⚡</title>
+          <title>ChatNext 💬</title>
           <meta name="description" content="💬" />
           <link rel="icon" href="/favicon.ico" />
         </Head>

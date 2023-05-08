@@ -1,6 +1,7 @@
 import type { PropsWithChildren } from "react";
+
 import { NavBar } from "./ui/nav-bar";
-import { Footer } from "./ui/footer-main";
+import { Footer } from "./ui/footer";
 
 export const PageLayout = (props: PropsWithChildren) => {
   return (

@@ -1,17 +1,20 @@
-"use client";
-import type { NextPage } from "next";
 import { useEffect, useRef, useState } from "react";
 import { pusherClient } from "~/lib/pusherClient";
-import { ChatAreaWithScroll } from "./ui/scroll-area";
-import { api } from "~/utils/api";
 import type { Message } from "@prisma/client";
+import { useAtom } from "jotai";
 
-const Chat: NextPage<{ roomId: string; username: string }> = ({ roomId }) => {
+import { api } from "~/utils/api";
+import { ChatAreaWithScroll } from "./ui/scroll-area";
+import { usernameAtom } from "~/lib/atoms";
+
+export const Chat = (props: { roomId: string }) => {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [username] = useAtom(usernameAtom);
+
   const chat = useRef<HTMLDivElement>(null);
 
   api.message.getAllByRoomId.useQuery(
-    { roomId: roomId },
+    { roomId: props.roomId },
     {
       refetchOnWindowFocus: false,
       onSuccess: (data) => setMessages(data),
@@ -19,7 +22,7 @@ const Chat: NextPage<{ roomId: string; username: string }> = ({ roomId }) => {
   );
 
   useEffect(() => {
-    pusherClient.subscribe(roomId);
+    pusherClient.subscribe(props.roomId);
     pusherClient.unbind_all();
     pusherClient.bind("incoming-message", (message: Message) => {
       setMessages((prev) => [...prev, message]);
@@ -27,9 +30,9 @@ const Chat: NextPage<{ roomId: string; username: string }> = ({ roomId }) => {
     });
 
     return () => {
-      pusherClient.unsubscribe(roomId);
+      pusherClient.unsubscribe(props.roomId);
     };
-  }, [roomId]);
+  }, [props.roomId]);
 
   useEffect(() => {
     chat.current?.scrollTo(0, chat.current.scrollHeight);
@@ -38,9 +41,20 @@ const Chat: NextPage<{ roomId: string; username: string }> = ({ roomId }) => {
   return (
     <ChatAreaWithScroll ref={chat}>
       {messages.map((message) => (
-        <div className=" chat chat-end" key={message.id}>
+        <div
+          className={`chat ${
+            username === message.username ? "chat-end" : "chat-start"
+          }`}
+          key={message.id}
+        >
           <div className="chat-header">{message.username}</div>
-          <div className="chat-bubble chat-bubble-primary break-all">
+          <div
+            className={`chat-bubble break-all ${
+              username === message.username
+                ? "chat-bubble-primary"
+                : "chat-bubble-secondary"
+            }`}
+          >
             {message.text}
           </div>
         </div>
@@ -48,5 +62,3 @@ const Chat: NextPage<{ roomId: string; username: string }> = ({ roomId }) => {
     </ChatAreaWithScroll>
   );
 };
-
-export default Chat;

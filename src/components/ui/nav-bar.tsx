@@ -1,8 +1,11 @@
+import { useAtom } from "jotai";
 import { useTheme } from "next-themes";
 import Link from "next/link";
+import { usernameAtom } from "~/lib/atoms";
 
 export const NavBar = () => {
   const { theme, setTheme } = useTheme();
+  const [username, setUsername] = useAtom(usernameAtom);
 
   return (
     <div className="navbar bg-base-300 ">
@@ -32,20 +35,32 @@ export const NavBar = () => {
               <Link href="/">Home</Link>
             </li>
             <li>
-              <a href="https://t.me/xWxfFle">Telegram</a>
+              <a href="https://t.me/xWxfFle" className="link-hover link">
+                Telegram
+              </a>
             </li>
             <li>
-              <a href="https://github.com/xWxfFle">Github</a>
+              <a href="https://github.com/xWxfFle" className="link-hover link">
+                Github
+              </a>
             </li>
             <li>
               <a
                 onClick={() => {
-                  setTheme("cyberpunk");
+                  setTheme("black");
                 }}
               >
-                Activate secret theme
+                Activate black theme
               </a>
             </li>
+            {username && (
+              <>
+                <li className="divider" />
+                <li>
+                  <button onClick={() => setUsername("")}>Log out</button>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>

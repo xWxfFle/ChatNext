@@ -1,14 +1,14 @@
-"use client";
-
-import type { NextPage } from "next";
-import {type FormEvent, useEffect, useState } from "react";
+import { useAtom } from "jotai";
+import { type FormEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+
+import { usernameAtom } from "~/lib/atoms";
+
 import { api } from "~/utils/api";
 
-const ChatForm: NextPage<{ roomId: string; username: string }> = ({
-  roomId,
-  username,
-}) => {
+export const ChatMessageForm = (props: { roomId: string }) => {
+  const [username] = useAtom(usernameAtom);
+
   const sendMessage = api.message.send.useMutation({
     onError: () => {
       toast.error("Too many messages, please wait.");
@@ -19,7 +19,11 @@ const ChatForm: NextPage<{ roomId: string; username: string }> = ({
   const [disabled, setDisabled] = useState(true);
   const onFormSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    sendMessage.mutate({ roomId, text: input, username });
+    sendMessage.mutate({
+      roomId: props.roomId,
+      text: input,
+      username: username,
+    });
     setInput("");
   };
 
@@ -42,5 +46,3 @@ const ChatForm: NextPage<{ roomId: string; username: string }> = ({
     </form>
   );
 };
-
-export default ChatForm;

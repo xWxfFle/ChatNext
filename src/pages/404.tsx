@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Link from "next/link";
+
 import { PageLayout } from "~/components/layot";
 
 const Custom404: NextPage<{ сustomMessage?: string }> = ({ сustomMessage }) => {
@@ -9,9 +10,9 @@ const Custom404: NextPage<{ сustomMessage?: string }> = ({ сustomMessage }) =>
         <h1 className="py-4 text-3xl">
           {сustomMessage ? сustomMessage : "404 - Page Not Found"}
         </h1>
-          <Link className="btn-primary btn w-2/3" href="/">
-            Back
-          </Link>
+        <Link className="btn-primary btn w-2/3" href="/">
+          Back
+        </Link>
       </div>
     </PageLayout>
   );
